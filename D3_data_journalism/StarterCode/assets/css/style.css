@@ -29,3 +29,7 @@ body {
   margin: 0;
   font-size: 16px;
 }
+
+.textStyle {
+  text-anchor: middle;
+}

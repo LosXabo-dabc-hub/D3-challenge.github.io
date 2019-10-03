@@ -21,11 +21,11 @@ var scatterGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 // Import Data
-d3.csv("data.csv").then(function(data) {
+d3.csv("Xdata.csv").then(function(Xdata) {
 
     // Step 1: Parse Data/Cast as numbers
     // ==============================
-    data.forEach(function(data) {
+    Xdata.forEach(function(data) {
       data.healthcare = +data.healthcare;
       data.poverty = +data.poverty;
     });
@@ -33,11 +33,11 @@ d3.csv("data.csv").then(function(data) {
     // Step 2: Create scale functions
     // ==============================
     var xLinearScale = d3.scaleLinear()
-      .domain([8, d3.max(data, d => d.poverty)])
+      .domain([8, d3.max(Xdata, d => d.poverty)])
       .range([0, width]);
 
     var yLinearScale = d3.scaleLinear()
-      .domain([4, d3.max(data, d => d.healthcare)])
+      .domain([4, d3.max(Xdata, d => d.healthcare)])
       .range([height, 0]);
 
     // Step 3: Create axis functions
@@ -57,7 +57,7 @@ d3.csv("data.csv").then(function(data) {
     // Step 5: Create Circles
     // ==============================
     var circlesGroup = scatterGroup.selectAll("circle")
-    .data(data)
+    .data(Xdata)
     .enter()
     .append("circle")
     .attr("cx", d => xLinearScale(d.poverty))
@@ -68,24 +68,29 @@ d3.csv("data.csv").then(function(data) {
     .attr("opacity", ".5");
 
 
-    var circlesGroup = scatterGroup.selectAll("text")
-    .data(data)
+    var textGroup = scatterGroup.selectAll("#text")
+    .data(Xdata)
     .enter()
     .append("text")
+    .attr("x", d => xLinearScale(d.poverty))
+    .attr("y", d => yLinearScale(d.healthcare))
     .attr("class", "textStyle")
-
-    .attr("dx", d => xLinearScale(d.poverty))
-    .attr("dy", d => yLinearScale(d.healthcare))
-
     .text(d => d.abbr);
 
-
+    // var textGroup = scatterGroup.selectAll(".text1")
+    // .data(Xdata)
+    // .enter()
+    // .append("text")
+    // .attr("x", d => xLinearScale(d.poverty))
+    // .attr("y", d => yLinearScale(d.healthcare))
+    // .attr("class", "text1")
+    // .label(d => d.abbr);
 
     // Step 6: Initialize tool tip
     // ==============================
     var toolTip = d3.tip()
       .attr("class", "tooltip")
-      .offset([80, -60])
+     // .offset([80, -60])
       .html(function(d) {
         return (`${d.id}<br>Healthcare: ${d.healthcare}<br>Poverty: ${d.poverty}`);
       });
