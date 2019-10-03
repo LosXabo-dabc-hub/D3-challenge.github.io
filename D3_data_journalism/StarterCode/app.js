@@ -77,14 +77,7 @@ d3.csv("Xdata.csv").then(function(Xdata) {
     .attr("class", "textStyle")
     .text(d => d.abbr);
 
-    // var textGroup = scatterGroup.selectAll(".text1")
-    // .data(Xdata)
-    // .enter()
-    // .append("text")
-    // .attr("x", d => xLinearScale(d.poverty))
-    // .attr("y", d => yLinearScale(d.healthcare))
-    // .attr("class", "text1")
-    // .label(d => d.abbr);
+
 
     // Step 6: Initialize tool tip
     // ==============================
